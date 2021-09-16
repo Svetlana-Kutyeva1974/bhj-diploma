@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Класс Sidebar отвечает за работу боковой колонки:
  * кнопки скрытия/показа колонки в мобильной версии сайта
  * и за кнопки меню
@@ -18,7 +18,11 @@ class Sidebar {
    * при нажатии на кнопку .sidebar-toggle
    * */
   static initToggleButton() {
-
+    document.querySelector("a.sidebar-toggle.visible-xs").addEventListener("click", (event) => {
+      document.body.classList.toggle("sidebar-open");
+      document.body.classList.toggle("sidebar-collapse");
+    });
+   
   }
 
   /**
