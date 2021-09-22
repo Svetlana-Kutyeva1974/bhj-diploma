@@ -12,7 +12,15 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor(element){
+    if (element === null) {
+      alert("Ошибка");
+    }
+    else{
+      this.element = element;
+      console.log("UserWidget"+ this.element);
 
+    }
+   this.update();//?
   }
 
   /**
@@ -23,6 +31,8 @@ class UserWidget {
    * авторизованного пользователя
    * */
   update(){
-
+    User.current(); 
+    //где взять имя пользователя
+   // this.widgets["user"].children[1].querySelector('p.user-name').innerText = "Пользователь";
   }
 }
