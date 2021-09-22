@@ -13,7 +13,15 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor(element) {
+    this.element = element;
+    console.log(this.element);
 
+    if (this.element === null) {
+      alert("Невозможно открыть окно формы");
+    }
+    else {
+      this.registerEvents();
+    }
   }
 
   /**
@@ -21,6 +29,22 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
+    console.log("регист событий на " + this + this.element);
+    this.element.addEventListener('submit', function (e) {
+      e.preventDefault();
+     // e.Target.submit();
+
+      this.submit();
+    } );
+     // this.element.preventDefault();//?
+    //  this.element.addEventListener('submit', AsyncForm.submit);
+   /* this.element.onsubmit = async (e) => {
+    e.preventDefault();
+    let response = await fetch('/article/formdata/post/user', {
+      method: 'POST',
+      body: new FormData(this.element)
+    });*/
+
 
   }
 
@@ -32,11 +56,21 @@ class AsyncForm {
    * }
    * */
   getData() {
+    const formData = new FormData( this.element ),
+    entries = formData.entries();
+    let result = {};
 
+    for (let item of entries) {
+      const key = item[ 0 ],
+      value = item[ 1 ];
+      console.log(` Вот данные формы: ${key}: ${value}`);
+      result.push({key:value});
+    }
+    return result;
   }
 
   onSubmit(options){
-
+    console.log( options );
   }
 
   /**
@@ -44,6 +78,9 @@ class AsyncForm {
    * данные, полученные из метода getData()
    * */
   submit() {
-
+    //e.preventDefault();
+   // AsyncForm.onSubmit(AsyncForm.getData());
+   //e.Target.onSubmit(e.Target.getData());
+    this.onSubmit(this.getData());
   }
 }
