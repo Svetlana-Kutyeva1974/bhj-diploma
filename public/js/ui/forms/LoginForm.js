@@ -13,7 +13,7 @@ class LoginForm extends AsyncForm {
     User.login(data, callback);
     //при успешной регистрации cбрасывает? это где проверять, в юзере итак стоит проверка
     App.setState( 'user-logged' );
-    this.element.close();//this.element.Modal.close();
+    App.modals["login"].close();//this.element.close();
 
   }
 }
