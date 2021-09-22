@@ -13,8 +13,7 @@ class RegisterForm extends AsyncForm {
     User.register(data, callback);
     //при успешной регистрации? это где проверять, в юзере итак стоит проверка
     App.setState( 'user-logged' );
-  
-    this.element.close();//this.element.Modal.close();
+    App.modals['register'].close();//this.element.close();
 
   }
 }
