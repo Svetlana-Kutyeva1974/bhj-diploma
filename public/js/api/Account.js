@@ -12,7 +12,7 @@ class Account extends Entity {
   static get(id = '', callback){
 
     createRequest({
-    url: URL, // адрес
+    url: URL, // адрес,? url+id
     data: { // произвольные данные, могут отсутствовать
       email: data.email,
       password: data.password
@@ -28,7 +28,8 @@ class Account extends Entity {
       console.log( 'Ошибка, если есть', err );
       console.log( 'Данные, если нет ошибки', response );
 
-      // id что -то с ним нужно сделать
+      // id что -то с ним нужно сделать? или по нему просто ищется счет
+      //и возвращается в виде /account/2
     }
   });
 

@@ -10,7 +10,7 @@ class User {
    * локальном хранилище.
    * */
   static setCurrent(user) {
-     localStorige.setItem('user', JSON.stringify(user));
+     localStorige.setItem('user', JSON.stringify(user));//localStorige.setItem('user', user)
      console.log( localStorage.user);
   }
 
@@ -34,7 +34,8 @@ class User {
    * */
   static current() {
     let userCurrent = localStorage.getItem(this);
-    return (JSON.parse(userCurrent) || undefined) ;
+
+    return (JSON.parse(userCurrent) || undefined) ;//return (userCurrent || undefined)
   }
 
   /**
@@ -116,7 +117,23 @@ class User {
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
   static logout(callback) {
-
+    createRequest({
+      url: this.URL + '/logout',
+      method: 'POST',
+      responseType: 'json',
+      //data,
+      callback: (err, response) => {
+        if (response && response.user) {
+          //this.setCurrent(response.user);
+          this.unsetCurrent();
+        }
+        else {
+          callback(err, response);
+          
+        }
+        //callback(err, response);
+      }
+    });
   }
 }
 

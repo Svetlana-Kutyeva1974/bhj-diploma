@@ -44,7 +44,7 @@ class Entity {
     url: URL, // адрес
     data: { // произвольные данные, могут отсутствовать
       email: data.email,
-      password: password
+      password: password  //?вроде, так было, это не я писала
     },
     method: 'PUT', // метод запроса
     /*
@@ -71,8 +71,8 @@ class Entity {
     createRequest({
     url: URL, // адрес
     data: { // произвольные данные, могут отсутствовать
-      email: data.email,
-      password: password
+      email: data.email,// email или mail?
+      password: password//?
     },
     method: 'DELETE', // метод запроса
     /*
