@@ -33,6 +33,31 @@ class Sidebar {
    * выходу устанавливает App.setState( 'init' )
    * */
   static initAuthLinks() {
+    function clickNodeRegister(event){
+      event.preventDefault();
+      console.log(this);
+      let nameModal = this.children[0].innerText;
+       if (nameModal === "Вход") {
+        //App.getModal("login");
+        App.getModal("login").open();
+       }
+       if (nameModal === "Регистрация") {
+        //App.getModal("register");
+        App.getModal("register").open();
+       }
+       if (nameModal === "Выход") {
+        //User.logout();
+       // if (response.success = true) {
+          App.setState( 'init' );
+       // }
+       }
+
+     // App.getModal();//#modal-register
+
+     // this.querySelector("a").parentNode.remove();
+    }
+    document.querySelector("ul.sidebar-menu li.menu-item").addEventListener('click', clickNodeRegister);
+
 
   }
 }
