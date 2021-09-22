@@ -46,9 +46,9 @@ class Sidebar {
         App.getModal("register").open();
        }
        if (nameModal === "Выход") {
-        //User.logout();
+         User.logout(callback);
        // if (response.success = true) {
-          App.setState( 'init' );
+         App.setState( 'init' );
        // }
        }
 
@@ -56,8 +56,9 @@ class Sidebar {
 
      // this.querySelector("a").parentNode.remove();
     }
-    document.querySelector("ul.sidebar-menu li.menu-item").addEventListener('click', clickNodeRegister);
-
+    document.querySelectorAll("ul.sidebar-menu li.menu-item").forEach((item) => {
+      item.addEventListener('click', clickNodeRegister);
+    });
 
   }
 }
