@@ -12,11 +12,12 @@ class Account extends Entity {
   static get(id = '', callback){
 
     createRequest({
-    url: URL, // адрес,? url+id
-    data: { // произвольные данные, могут отсутствовать
+    url: this.URL, // адрес,? url+id
+    /*data: { // произвольные данные, могут отсутствовать
       email: data.email,
       password: data.password
-    },
+    }*/
+    data,
     method: 'GET', // метод запроса
     /*
       Функция, которая сработает после запроса.
