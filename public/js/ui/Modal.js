@@ -13,7 +13,7 @@ class Modal {
    * */
   constructor(element){
     this.element = element;
-    console.log(this.element);
+    console.log("окно" + this.element);
 
    /* if (this.element === null) {
       alert("Невозможно открыть модальное окно");
@@ -32,25 +32,21 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
-    //querySelector("data-dismiss.modal")
     //.querySelector("div").addEventListener('click', this.Modal.onClose);
      console.log(this.element);
-     console.log("закрываем что" + this.element.querySelectorAll('[data-dismiss="modal"]')[0]);
-    this.element.querySelectorAll('[data-dismiss="modal"]').forEach((item) => {
-      //if (item.classList.contains(string)){
-      item.addEventListener('click', this.element.onClose);
-    //};
+     console.log("закрываем что" + this.element.querySelectorAll('[data-dismiss="modal"]'));
+     Array.from(this.element.querySelectorAll('[data-dismiss="modal"]')).forEach((item) => {
+      item.addEventListener('click', this.onClose.bind(this));
     });
   }
-
   /**
    * Срабатывает после нажатия на элементы, закрывающие окно.
    * Закрывает текущее окно (Modal.close())
    * */
-  onClose(e) {
-    console.log(this.element, e.currentTarget);
-   // e.currentTarget.close();
-    this.element.close();
+  onClose() {
+    console.log(this);
+   this.close();
+   
   }
   /**
    * Открывает окно: устанавливает CSS-свойство display
@@ -62,7 +58,8 @@ class Modal {
   /**
    * Закрывает окно: удаляет CSS-свойство display
    * */
-  close(){
+  close() {
+     console.log(this);
     this.element.style.display = "none";//this.style.display = none;
   }
 
