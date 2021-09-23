@@ -10,10 +10,29 @@ class RegisterForm extends AsyncForm {
    * и закрывает окно, в котором находится форма
    * */
   onSubmit(data) {
-    User.register(data, callback);
+    User.register(data,(err, response) => {
+      if (err !== null)
+    {
+      console.log (err);
+    }
+      
+    });
     //при успешной регистрации? это где проверять, в юзере итак стоит проверка
+    
+    App.modals('register').reset();
     App.setState( 'user-logged' );
-    App.modals['register'].close();//this.element.close();
+    App.modals('register').close();//закрывает окно, в котором находится форма
+
+    App.getWidget('user').open();//открываем панели
+    App.getWidget('accounts').open();
+    App.getWidget('transactions').open();
+
+    //App.getWidget['user'].style.display = "block";
+    //App.getWidget['accounts'].style.display = "block";
+  /*  document.querySelector(".transactions-panel").style.display = "block";
+    document.querySelector(".accounts-panel").style.display = "block";
+    document.querySelector(".user-panel").style.display = "block";*/
+   // this.element.close();//this.element.Modal.close();
 
   }
 }
