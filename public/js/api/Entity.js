@@ -12,11 +12,12 @@ class Entity {
    * */
   static list(data, callback){
     createRequest({
-    url: URL, // адрес
-    data: { // произвольные данные, могут отсутствовать
-      email: data.email,
+    url: this.URL, // адрес
+    /*data: { // произвольные данные, могут отсутствовать
+      email: data.email,// mail: data.mail
       password: data.password
-    },
+    }*/
+    data,
     method: 'GET', // метод запроса
     /*
       Функция, которая сработает после запроса.
@@ -41,11 +42,12 @@ class Entity {
   static create(data, callback) {
 
     createRequest({
-    url: URL, // адрес
-    data: { // произвольные данные, могут отсутствовать
-      email: data.email,
+    url: this.URL, // адрес
+    /*data: { // произвольные данные, могут отсутствовать
+      email: data.email,//mail?
       password: password  //?вроде, так было, это не я писала
-    },
+    }*/
+    data,
     method: 'PUT', // метод запроса
     /*
       Функция, которая сработает после запроса.
@@ -67,9 +69,8 @@ class Entity {
    * */
   static remove(data, callback ) {
 
-
     createRequest({
-    url: URL, // адрес
+    url: this.URL, // адрес
     data: { // произвольные данные, могут отсутствовать
       email: data.email,// email или mail?
       password: password//?
