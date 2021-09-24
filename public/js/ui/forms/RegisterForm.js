@@ -31,12 +31,6 @@ class RegisterForm extends AsyncForm {
     
     //this.initWidgets();
 
-    //App.getWidget['user'].style.display = "block";
-    //App.getWidget['accounts'].style.display = "block";
-  /*  document.querySelector(".transactions-panel").style.display = "block";
-    document.querySelector(".accounts-panel").style.display = "block";
-    document.querySelector(".user-panel").style.display = "block";*/
-   // this.element.close();//this.element.Modal.close();
 
   }
 }
