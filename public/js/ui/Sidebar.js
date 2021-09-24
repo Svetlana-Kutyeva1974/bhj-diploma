@@ -33,7 +33,7 @@ class Sidebar {
    * выходу устанавливает App.setState( 'init' )
    * */
   static initAuthLinks() {
-    function clickNodeRegister(event){
+    function clickNodeRegister(event) {
       event.preventDefault();
       console.log(this);
       let nameModal = this.children[0].innerText;
@@ -41,24 +41,33 @@ class Sidebar {
         //App.getModal("login");
         App.getModal("login").open();
        }
+
        if (nameModal === "Регистрация") {
         //App.getModal("register");
         App.getModal("register").open();
        }
-       if (nameModal === "Выход") {
-         User.logout(callback);
-       // if (response.success = true) {
-         App.setState( 'init' );
-       // }
-       }
 
+       if (nameModal === "Выйти") {
+        // User.logout(callback);
+         User.logout(( err, response ) => {
+          console.log( response ); // Ответ
+          if (response && response.success === true) {
+            App.setState( 'init' );
+          }
+          console.log(err);
+         
+        });
      // App.getModal();//#modal-register
+       }//if
+       
+    }//func
 
-     // this.querySelector("a").parentNode.remove();
-    }
     document.querySelectorAll("ul.sidebar-menu li.menu-item").forEach((item) => {
+      //item.addEventListener('click', clickNodeRegister);
       item.addEventListener('click', clickNodeRegister);
     });
 
-  }
-}
+
+  }//initAuthLinks()
+
+}//class
