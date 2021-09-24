@@ -14,18 +14,22 @@ class RegisterForm extends AsyncForm {
       if (err !== null)
     {
       console.log (err);
+
+      
     }
       
     });
     //при успешной регистрации? это где проверять, в юзере итак стоит проверка
     
-    App.modals('register').reset();
+    App.getForm('register').reset();
     App.setState( 'user-logged' );
-    App.modals('register').close();//закрывает окно, в котором находится форма
+    App.getModal('register').close();//закрывает окно, в котором находится форма
 
-    App.getWidget('user').open();//открываем панели
+   /* App.getWidget('user').open();//открываем панели
     App.getWidget('accounts').open();
-    App.getWidget('transactions').open();
+    App.getWidget('transactions').open();*/
+    
+    //this.initWidgets();
 
     //App.getWidget['user'].style.display = "block";
     //App.getWidget['accounts'].style.display = "block";
