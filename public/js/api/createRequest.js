@@ -5,10 +5,10 @@
                                             //const createRequest = (options = {}) => {
                                             //const createRequest = (options = {url, data= 'null', method}) => {
 const createRequest = (options = {}) => {
-const url = options.url;
-const method = options.method;
-const callback = options.callback;
-const data = options.data;
+let url = options.url;
+let method = options.method;
+let callback = options.callback;
+let data = options.data;
                                              //const { url, data, method} = option;
 
 const xhr = new XMLHttpRequest;
@@ -17,7 +17,10 @@ xhr.responseType = 'json';
                                             //xhr.open( `${method}`, `${url?mail=data.mail&password=data.password}` ); 
   try {
   
-    xhr.open( method, `url?mail=data.mail&password=data.password` );
+    //xhr.open( method, `url?email=data.email&password=data.password` );
+    xhr.open( method, url );
+   // xhr.open( method, `url?mail=data.mail&password=data.password` );
+
     //  xhr.open( method, `url?mail=data.mail&password=data.password` );
    // xhr.open( method, `${url}?mail=${data.mail}&password=${data.password}` );
    // xhr.open( method, `${url}?mail=${options.mail}&password=${data.password}` );
@@ -25,37 +28,39 @@ xhr.responseType = 'json';
       xhr.send( data );
     }
     else {
-      const formData = new FormData;
-      formData.append( 'mail', data.mail );
-      formData.append( 'password', data.password );
-      xhr.send( formData );
+      const formData = new FormData();
+      //formData.append( 'email', data.email );//formData.append( 'mail', data.mail );
+     // formData.append( 'password', data.password );
+
+      formData.append('data', data);
+       xhr.send( formData );
+      //xhr.send( data );
     }
 
   }
-  catch ( e ) {
+  catch ( err ) {
     // перехват сетевой ошибки
-    callback( e );
+    callback( err );
   }
 
   xhr.onload = function() {
+  let body = xhr.response;
   if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
     alert(`Ошибка ${xhr.status}: ${xhr.statusText}`); // Например, 404: Not Found
     //callback( e );
     callback(xhr.status , xhr.response);
   } else { // если всё прошло гладко, выводим результат
    // alert(`Готово, получили ${xhr.response.length} байт`); // response -- это ответ сервера
-    alert('Готово, получили ' + xhr.response);
+    console.log('Готово, получили ' + xhr.status + body);
     callback(xhr.status , xhr.response);
   }
 };
 
 xhr.onerror = function() {
   alert("Запрос не удался");
-  callback( e );
+  callback( err );
 };
 
-//усли метод гет , то
-//если метод post, то
 }
 
 
