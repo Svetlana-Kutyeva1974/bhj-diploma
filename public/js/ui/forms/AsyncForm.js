@@ -29,14 +29,20 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
-    console.log("регист событий на " + this + this.element);
+   // console.log("регист событий на " + this + this.element);
+    /*this.element.addEventListener('submit', function (e) {
+      e.preventDefault();
+     // e.Target.submit();
+      this.submit();
+    } );*/
+
     this.element.addEventListener('submit', (e) => {
       e.preventDefault();
      // e.Target.submit();
-
+      ///this.submit.bind(this);
       this.submit();
     } );
-     // this.element.preventDefault();//?
+     
     //  this.element.addEventListener('submit', AsyncForm.submit);
    /* this.element.onsubmit = async (e) => {
     e.preventDefault();
@@ -44,8 +50,6 @@ class AsyncForm {
       method: 'POST',
       body: new FormData(this.element)
     });*/
-
-
   }
 
   /**
@@ -56,21 +60,23 @@ class AsyncForm {
    * }
    * */
   getData() {
-    const formData = new FormData( this.element ),
-    entries = formData.entries();
-    let result = {};
-
-    for (let item of entries) {
+    const formData = new FormData( this.element );
+    console.log(` Вот исходной формы: ${formData}`);
+    const entries = formData.entries();
+    let result = new FormData();
+    for (let item of entries ) {
       const key = item[ 0 ],
       value = item[ 1 ];
       console.log(` Вот данные формы: ${key}: ${value}`);
-      result.push({key:value});
+       result.append(item[ 0 ], item[ 1 ]);
+     // result.push({`${item}:${formData[item]}`});
     }
-    return result;
+     return result;
   }
 
   onSubmit(options){
     console.log( options );
+    //return options;//? надо?
   }
 
   /**
