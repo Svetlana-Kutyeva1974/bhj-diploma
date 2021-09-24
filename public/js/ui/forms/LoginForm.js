@@ -19,6 +19,7 @@ class LoginForm extends AsyncForm {
       App.getForm('login').reset();
       App.setState( 'user-logged' );
       App.getModal('login').close();
+         
    // App.getWidget['user'].open();//?
     /*App.getWidget('user').open();//открываем панели
     App.getWidget('accounts').open();
@@ -27,14 +28,9 @@ class LoginForm extends AsyncForm {
     //this.initWidgets();
     }
     else {
-      console.log(response.err);
+      console.log(err);
     }
     });
-
-    //this.element.close();//this.element.Modal.close();
-    /* document.querySelector(".transactions-panel").style.display = "block";
-    document.querySelector(".accounts-panel").style.display = "block";
-    document.querySelector(".user-panel").style.display = "block";*/
 
   }
 }
