@@ -30,7 +30,7 @@ class AsyncForm {
    * */
   registerEvents() {
     console.log("регист событий на " + this + this.element);
-    this.element.addEventListener('submit', function (e) {
+    this.element.addEventListener('submit', (e) => {
       e.preventDefault();
      // e.Target.submit();
 
