@@ -21,7 +21,8 @@ class RegisterForm extends AsyncForm {
     });
     //при успешной регистрации? это где проверять, в юзере итак стоит проверка
     
-    App.getForm('register').reset();
+   // App.getForm('register').reset();
+    this.element.reset();
     App.setState( 'user-logged' );
     App.getModal('register').close();//закрывает окно, в котором находится форма
 
