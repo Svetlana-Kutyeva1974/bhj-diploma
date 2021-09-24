@@ -30,17 +30,16 @@ class UserWidget {
    * в элемент .user-name устанавливает имя
    * авторизованного пользователя
    * */
-  update(){ 
+  update(){
     let currentUser = User.current(); 
-    console.log("currentUser "+ currentUser);
-
-    //где взять имя пользователя
-   // this.widgets["user"].children[1].querySelector('p.user-name').innerText = "Пользователь";
-   if (currentUser && currentUser != undefined) {
-    this.element.innerText = currentUser.name;
-  }
+    console.log("текущийUser "+ currentUser);
+    if (currentUser && currentUser != undefined) {
+    // document.querySelector(".user-panel").children[1].querySelector('p.user-name').innerHTML = currentUser.name;
+    document.querySelector(".user-name").innerText = currentUser.name;
+   }
    else {
     console.log("Необходима автoризация");
    }
-  }
+ }
+
 }
