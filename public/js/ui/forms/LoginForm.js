@@ -16,7 +16,8 @@ class LoginForm extends AsyncForm {
        if (response && response.success === true){
    // });
     //при успешной регистрации cбрасывает? это где проверять, в юзере итак стоит проверка
-      App.getForm('login').reset();
+     // App.getForm('login').reset();
+          this.element.reset();
       App.setState( 'user-logged' );
       App.getModal('login').close();
          
