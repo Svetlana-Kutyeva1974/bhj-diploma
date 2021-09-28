@@ -29,27 +29,10 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
-   // console.log("регист событий на " + this + this.element);
-    /*this.element.addEventListener('submit', function (e) {
-      e.preventDefault();
-     // e.Target.submit();
-      this.submit();
-    } );*/
-
     this.element.addEventListener('submit', (e) => {
       e.preventDefault();
-     // e.Target.submit();
-      ///this.submit.bind(this);
       this.submit();
     } );
-     
-    //  this.element.addEventListener('submit', AsyncForm.submit);
-   /* this.element.onsubmit = async (e) => {
-    e.preventDefault();
-    let response = await fetch('/article/formdata/post/user', {
-      method: 'POST',
-      body: new FormData(this.element)
-    });*/
   }
 
   /**
@@ -76,7 +59,6 @@ class AsyncForm {
 
   onSubmit(options){
     console.log( options );
-    //return options;//? надо?
   }
 
   /**
@@ -84,9 +66,6 @@ class AsyncForm {
    * данные, полученные из метода getData()
    * */
   submit() {
-    //e.preventDefault();
-   // AsyncForm.onSubmit(AsyncForm.getData());
-   //e.Target.onSubmit(e.Target.getData());
     this.onSubmit(this.getData());
   }
 }
