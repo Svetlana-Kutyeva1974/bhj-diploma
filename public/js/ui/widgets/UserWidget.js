@@ -32,10 +32,10 @@ class UserWidget {
    * */
   update(){
     let currentUser = User.current(); 
-    console.log("текущийUser "+ currentUser);
+    console.log("текущий User---- "+ currentUser);
     if (currentUser && currentUser != undefined) {
     // document.querySelector(".user-panel").children[1].querySelector('p.user-name').innerHTML = currentUser.name;
-    document.querySelector(".user-name").innerText = currentUser.name;
+    document.querySelector(".user-name").textContent= JSON.parse(currentUser).name;
    }
    else {
     console.log("Необходима автoризация");
