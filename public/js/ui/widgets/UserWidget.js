@@ -35,7 +35,8 @@ class UserWidget {
     console.log("текущий User---- "+ currentUser);
     if (currentUser && currentUser != undefined) {
     // document.querySelector(".user-panel").children[1].querySelector('p.user-name').innerHTML = currentUser.name;
-    document.querySelector(".user-name").textContent= JSON.parse(currentUser).name;
+    //document.querySelector(".user-name").textContent= JSON.parse(currentUser).name;
+    document.querySelector(".user-name").textContent= currentUser.name;
    }
    else {
     console.log("Необходима автoризация");
