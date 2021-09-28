@@ -14,6 +14,16 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
+    if (element === null) {
+      alert("Ошибка. Элемент не задан");
+    }
+    else{
+      this.element = element;
+      console.log("акаунтWidget"+ this.element);
+
+    }
+    this.registerEvents();
+    this.update();
 
   }
 
@@ -25,6 +35,25 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
+    this.element.querySelector('.create-account').addEventListener('click', ()=> {
+      App.getModal('createAccount').open();
+      /*this.element.querySelectorAll('li.account').forEach((item) => {
+      item.addEventListener('click', selectedAccount);
+    });addEventListener('click', ()=> {
+        AccountsWidget.onSelectAccount();
+      });
+    */
+    });
+    let accounts = document.querySelector('.accounts-panel');
+    accounts.addEventListener('click', (event)=> {
+        event.preventDefault();
+        this.onSelectAccount(event.currentTarget);//
+       //this.onSelectAccount(this.element);
+       // this.update();//?
+      });
+    /*accounts.addEventListener('click', ()=> {
+    this.onSelectAccount.bind(this);// привязать к выбранному счету
+      });*/
 
   }
 
@@ -39,6 +68,27 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
+    let currentUser = User.current();
+    console.log("текущий User для счетов---- "+ currentUser);
+    if (currentUser && currentUser != undefined) {
+      //data.id = currentUser.id;
+      //Account.list(account.user.id, (err, response) => {
+      Account.list(currentUser, (err, response) => {
+        if (response && response.success === true) {
+          console.log("счета текущ User ", response, response.data);
+          AccountsWidget.clear();
+
+          //для элементов массива response
+          renderItem(response.data);//?
+        }
+        else{
+          callback(err, response);
+        }
+
+      });
+
+    //document.querySelector(".user-name").textContent= currentUser.name;
+   }
 
   }
 
@@ -48,6 +98,11 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
+    const allAccount = Array.from(document.querySelectorAll('.account'));
+      for (let i of allAccount)
+      {
+        i.remove();
+      }
 
   }
 
@@ -59,7 +114,20 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount( element ) {
-
+   const allAccount = Array.from(document.querySelectorAll('.account'));
+     function isActive () {
+        return (allAccount.findIndex((item) => (item.classList.contains('active'))));
+     }
+    if (isActive() !== -1) {
+      allAccount[isActive()].classList.remove('active');
+      allAccount[element].classList.add('active');//?
+      // App.showPage( 'transactions', { account_id: id_счёта });
+      App.showPage( 'transactions', { account_id : `${account.id}` });
+    }
+    else{
+     // allAccount[element].classList.add('active');// на чем вызвать
+      App.showPage( 'transactions', { account_id : `${account.id}` });
+    }
   }
 
   /**
@@ -68,6 +136,27 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
+  if (item !== "") {
+    let accountHTMLElement = document.createElement('li');
+    accountHTMLElement.classList.add('active account');
+    let childrens = document.querySelector('.accounts-panel').children;
+    childrens[childrens.length-1].insertAdjacentElement('afterEnd', accountHTMLElement);
+    childrens[childrens.length-1].insertAdjacentHTML('beforeEnd',`<a href="#">
+        <span>${item.name}</span> /
+        <span>${item.sum} ₽</span>
+      </a>`);
+
+  }
+  /*так проще:
+
+   {document.querySelector('ul.accounts-panel').innerHTML += `
+    <li class="account">
+      <a href="#">
+        <span>${item.name}</span> /
+        <span>${item.sum} ₽</span>
+      </a>
+    </li>
+    `;}*/
 
   }
 
@@ -78,6 +167,7 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data){
+    this.getAccountHTML(item);
 
   }
 }
