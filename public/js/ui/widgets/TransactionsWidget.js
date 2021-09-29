@@ -12,6 +12,15 @@ class TransactionsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
+    if (element === null) {
+      alert("Ошибка. Элемент не задан");
+    }
+    else{
+      this.element = element;
+      console.log("транзакции Widget"+ this.element);
+
+    }
+    this.registerEvents();//?
 
   }
   /**
@@ -21,6 +30,13 @@ class TransactionsWidget {
    * экземпляра окна
    * */
   registerEvents() {
+    document.querySelector('button.create-income-button').addEventListener('click', ()=> {
+      App.getModal('newIncome').open();
+    });
+    document.querySelector('button.create-expense-button').addEventListener('click', ()=> {
+      App.getModal('newExpense').open();
+    });
+
 
   }
 }
