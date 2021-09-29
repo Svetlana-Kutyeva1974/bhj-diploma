@@ -37,23 +37,13 @@ class AccountsWidget {
   registerEvents() {
     this.element.querySelector('.create-account').addEventListener('click', ()=> {
       App.getModal('createAccount').open();
-      /*this.element.querySelectorAll('li.account').forEach((item) => {
-      item.addEventListener('click', selectedAccount);
-    });addEventListener('click', ()=> {
-        AccountsWidget.onSelectAccount();
-      });
-    */
     });
     let accounts = document.querySelector('.accounts-panel');
     accounts.addEventListener('click', (event)=> {
         event.preventDefault();
         this.onSelectAccount(event.Target);//
-       //this.onSelectAccount(this.element);
        // this.update();//?
       });
-    /*accounts.addEventListener('click', ()=> {
-    this.onSelectAccount.bind(this);// привязать к выбранному счету
-      });*/
 
   }
 
@@ -71,9 +61,7 @@ class AccountsWidget {
     let currentUser = User.current();
     console.log("текущий User для списка---- "+ currentUser);
     if (currentUser && currentUser != undefined) {
-      //data.id = currentUser.id;
-      //Account.list(account.user.id, (err, response) => {
-      Account.list(currentUser, (err, response) => {//?
+      Account.list(currentUser, (err, response) => {//!!!! получаю ответ пустой список и ошибка в консоли
         if (response && response.success === true) {
           console.log("списоктекущ User ", response, response.account);
           AccountsWidget.clear();
@@ -120,11 +108,11 @@ class AccountsWidget {
       allAccount[isActive()].classList.remove('active');
       allAccount[element].classList.add('active');//?
       // App.showPage( 'transactions', { account_id: id_счёта });
-      App.showPage( 'transactions', { account_id : `${account.id}` });
+     // App.showPage( 'transactions', { account_id : `${account.id}` });
     }
     else{
      // allAccount[element].classList.add('active');// на чем вызвать
-      App.showPage( 'transactions', { account_id : `${account.id}` });
+     // App.showPage( 'transactions', { account_id : `${account.id}` });
     }
   }
 
