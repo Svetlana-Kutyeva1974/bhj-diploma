@@ -26,15 +26,15 @@ class Entity {
       Если в запросе есть данные, они должны быть переданы в response.
     */
     callback: (err, response) => {
-
-      console.log( 'Ошибка, если есть', err );
-      console.log( 'Данные, если нет ошибки', response );
-
-      if (err != null) {callback(err, response);}//?
+     /* console.log( 'Ошибка, если есть', err );
+      console.log( 'Данные, если нет ошибки', response );*/
+  
+       if (err != null) {
+        alert( err );
+      }
+      callback(err, response);//''это забыла написать возврат надо было , иначе окно не закрывалось!!!
     }
-  });
-
-
+    });
   }
 
   /**
