@@ -26,8 +26,11 @@ class Entity {
       Если в запросе есть данные, они должны быть переданы в response.
     */
     callback: (err, response) => {
+
       console.log( 'Ошибка, если есть', err );
       console.log( 'Данные, если нет ошибки', response );
+
+      if (err != null) {callback(err, response);}//?
     }
   });
 
@@ -56,8 +59,11 @@ class Entity {
       Если в запросе есть данные, они должны быть переданы в response.
     */
     callback: (err, response) => {
-      console.log( 'Ошибка, если есть', err );
+      if (err != null) {
+        alert( err );
+      }
       console.log( 'Данные, если нет ошибки', response );
+      callback(err, response);//''это забыла написать возврат надо было , иначе окно не закрывалось!!!
     }
   });
 
@@ -71,10 +77,11 @@ class Entity {
 
     createRequest({
     url: this.URL, // адрес
-    data: { // произвольные данные, могут отсутствовать
+    /*data: { // произвольные данные, могут отсутствовать
       email: data.email,// email или mail?
       password: password//?
-    },
+    }*/
+    data,
     method: 'DELETE', // метод запроса
     /*
       Функция, которая сработает после запроса.
@@ -83,9 +90,13 @@ class Entity {
       Если в запросе есть данные, они должны быть переданы в response.
     */
     callback: (err, response) => {
-      console.log( 'Ошибка, если есть', err );
+      if (err != null) {
+        alert( err );
+      }
       console.log( 'Данные, если нет ошибки', response );
+      callback(err, response);//''это забыла написать возврат надо было , иначе окно не закрывалось!!!
     }
+    
   });
 
   }
