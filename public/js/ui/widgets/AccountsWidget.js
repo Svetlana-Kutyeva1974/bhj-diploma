@@ -47,7 +47,7 @@ class AccountsWidget {
     let accounts = document.querySelector('.accounts-panel');
     accounts.addEventListener('click', (event)=> {
         event.preventDefault();
-        this.onSelectAccount(event.currentTarget);//
+        this.onSelectAccount(event.Target);//
        //this.onSelectAccount(this.element);
        // this.update();//?
       });
@@ -69,25 +69,23 @@ class AccountsWidget {
    * */
   update() {
     let currentUser = User.current();
-    console.log("текущий User для счетов---- "+ currentUser);
+    console.log("текущий User для списка---- "+ currentUser);
     if (currentUser && currentUser != undefined) {
       //data.id = currentUser.id;
       //Account.list(account.user.id, (err, response) => {
-      Account.list(currentUser, (err, response) => {
+      Account.list(currentUser, (err, response) => {//?
         if (response && response.success === true) {
-          console.log("счета текущ User ", response, response.data);
+          console.log("списоктекущ User ", response, response.account);
           AccountsWidget.clear();
 
           //для элементов массива response
-          renderItem(response.data);//?
+          renderItem(response.account);//?
         }
         else{
-          callback(err, response);
+          console.log(err);
         }
 
       });
-
-    //document.querySelector(".user-name").textContent= currentUser.name;
    }
 
   }
