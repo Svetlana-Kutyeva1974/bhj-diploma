@@ -123,16 +123,19 @@ class AccountsWidget {
      function isCurrent () {
         return (allAccount.findIndex((item) => (item === element.closest('.account'))));
      }
+      function isCurrentData () {
+        return (response.data.findIndex((item) => (item.name === element.closest('.account').querySelector(".span").innerText)));
+     }
 
     if (isActive() !== -1) {
       allAccount[isActive()].classList.remove('active');
       allAccount[isCurrent()].classList.add('active');//?
       // App.showPage( 'transactions', { account_id: id_счёта });
-     // App.showPage( 'transactions', { account_id : `${account.id}` });
+     App.showPage( 'transactions', { account_id : `${response.data[isCurrentData ()].id}` });
     }
     else {
       allAccount[isCurrent()].classList.add('active');// на чем вызвать
-      //App.showPage( 'transactions', { account_id : `${account.id}` });
+      App.showPage( 'transactions', { account_id : `${response.data[isCurrentData ()].id}` });
     }
   }
 
