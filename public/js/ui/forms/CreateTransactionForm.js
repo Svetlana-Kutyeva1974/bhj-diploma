@@ -8,7 +8,8 @@ class CreateTransactionForm extends AsyncForm {
    * метод renderAccountsList
    * */
   constructor(element) {
-    super(element)
+    super(element);
+    this.renderAccountsList;
   }
 
   /**
@@ -16,8 +17,45 @@ class CreateTransactionForm extends AsyncForm {
    * Обновляет в форме всплывающего окна выпадающий список
    * */
   renderAccountsList() {
+    let currentUser = User.current();
+    if (currentUser && currentUser != undefined) {
+      Account.list(currentUser, (err, response) => {
+        if (response && response.success === true) {
+          console.log("списоктекущ User ", response, response.data);
+           const accountListInSelect = document.getElementById('expense-accounts-list');
+           const accountListInSelect2 = document.getElementById('income-accounts-list');
+           accountListInSelect.innerHTML = "";
+                for (let item of response.data) {
+                  let accountElement = `<option value="${item.id}">${item.name}</option>`;
+                  accountListInSelect.innerHTML += accountElement;
+                }
+                accountListInSelect2.innerHTML = accountListInSelect.innerHTML;
+        
+           //const arrSelect = Array.from(document.querySelectorAll('.select'));
+          //Array.from(document.querySelectorAll('.select')).forEach ((accountListInSelect) => {
+          
+          /*  Array.from(document.querySelectorAll('.select')).forEach ((accountListInSelect) => {
+            accountListInSelect.innerHTML = "";
+                for (let item of response.data) {
+                  let accountElement = `<option value="${item.id}">${item.name}</option>`;
+                  accountListInSelect.innerHTML += accountElement;
+                }
+            });
+          */
 
-  }
+         /* accountElement.addEventListener('change', event => {
+      console.log(accountElement.value);
+      // значение value выбранного элемента 
+      console.log(accountElement.selectedIndex);
+      // порядковый номер выбранного элемента
+      console.log(accountElement.options[accountElement.selectedIndex].text);
+      // текст выбранной опции 
+    });*/
+
+        }
+      });
+    }
+}
 
   /**
    * Создаёт новую транзакцию (доход или расход)
@@ -26,6 +64,18 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
-
+    Transaction.create(data, ( err, response ) => {
+       console.log( "  получен", response ); 
+       if (response && response.success === true) {
+        console.log("новfz  транз", response);
+        this.element.reset();
+        const idModal = this.element.closest('div.modal').getAttribute('data-modal-id');
+        App.getModal(`${idModal}`).close();
+        App.update();
+       }
+        else {
+          alert(response.err);
+        }
+    });  
   }
 }
