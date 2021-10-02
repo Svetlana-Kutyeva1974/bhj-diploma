@@ -85,7 +85,15 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate(date){
-
+    
+    const arr Data =date. split('') ;//массив
+    const resultdate =arrData[0].split('-');
+    /*
+    const today = new Date( arrData[0] ) ;
+    today.toLocaleString('default', { month: 'short' });
+    */
+    const month = ['января' , 'февраля' , 'марта' , 'апреля', 'мая' , 'июня' , 'июля', 'августа' , 'сентября' , 'октября' , 'ноября' , 'декабря' ] 
+    return `${ resultdate[3]}${month [Number(resultdate[2])]}${resultdate[1]}${arrData[1].splice(6,3)}`;
   }
 
   /**
