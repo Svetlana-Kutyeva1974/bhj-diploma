@@ -23,7 +23,16 @@ xhr.responseType = 'json';
     }
     else {
        xhr.open( method, url );
-       xhr.send( data );
+       xhr.send( data );//или вместо этой строки так:
+       
+       /*Формально использовать формдата так:
+        const formData = new FormData();
+        for (let key in data) {
+          formData.append(`${key}`, data[key]); 
+        }
+        xhr.send(formData );
+       */
+
     }
 
   }
