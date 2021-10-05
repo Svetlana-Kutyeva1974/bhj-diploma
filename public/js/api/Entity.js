@@ -28,12 +28,18 @@ class Entity {
     callback: (err, response) => {
      /* console.log( 'Ошибка, если есть', err );
       console.log( 'Данные, если нет ошибки', response );*/
-  
-       if (err != null) {
+      
+     /*if (err != null) {
         alert( err );
       }
       callback(err, response);//''это забыла написать возврат надо было , иначе окно не закрывалось!!!
-    }
+*/
+     if (response && response.success) {
+          console.log(response);
+        }
+      
+          callback(err, response);
+      }
     });
   }
 
@@ -62,7 +68,7 @@ class Entity {
       if (err != null) {
         alert( err );
       }
-      console.log( 'Данные, если нет ошибки', response );
+      console.log( 'Данные, если нет ошибб создали', response );
       callback(err, response);//''это забыла написать возврат надо было , иначе окно не закрывалось!!!
     }
   });

@@ -4,20 +4,21 @@
  * Имеет свойство URL со значением '/account'
  * */
 class Account extends Entity {
-  static URL = '/account';//может в конструкторе добавить ...args super(...args)
-  //потому что другой url 
+  static URL = '/account'; 
   /**
    * Получает информацию о счёте
    * */
   static get(id = '', callback){
 
     createRequest({
-    url: this.URL, // адрес,? url+id
+      //url: this.URL,
+     // url: `${this.URL}/${id}`, // адрес,? url+id
+      url: this.URL + `/${id.id}`,// + `${id}`,
     /*data: { // произвольные данные, могут отсутствовать
       email: data.email,
       password: data.password
     }*/
-    data,
+    data : {},
     method: 'GET', // метод запроса
     /*
       Функция, которая сработает после запроса.
@@ -25,13 +26,24 @@ class Account extends Entity {
       должен быть в параметре err.
       Если в запросе есть данные, они должны быть переданы в response.
     */
-    callback: (err, response) => {
-      console.log( 'Ошибка, если есть', err );
-      console.log( 'Данные, если нет ошибки', response );
+    /*callback: (err, response) => {
+      if (err != null) {
+        alert( err );
+      }
+      callback(err, response);//''это забыла написать возврат надо было , иначе окно не закрывалось!!!
 
       // id что -то с ним нужно сделать? или по нему просто ищется счет
       //и возвращается в виде /account/2
-    }
+    }*/
+
+    callback: (err, response) => {
+     if (response && response.success) {
+          console.log(response);
+        }
+      
+          callback(err, response);
+      }
+  
   });
 
   }
