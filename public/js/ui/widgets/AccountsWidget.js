@@ -120,22 +120,57 @@ class AccountsWidget {
      function isActive () {
         return (allAccount.findIndex((item) => (item.classList.contains('active'))));
      }
+     console.log(isActive());
      function isCurrent () {
         return (allAccount.findIndex((item) => (item === element.closest('.account'))));
      }
+     console.log(isCurrent ());
+      
       function isCurrentData () {
-        return (response.data.findIndex((item) => (item.name === element.closest('.account').querySelector(".span").innerText)));
-     }
+        let idAccount;
+        Account.list(User.current(), (err, response) => {
+          if (response && response.success === true) {
+            console.log("списоктекущ User для поиска счета ", response, response.data);
+            idAccount =  response.data.findIndex((item) => (item.name === element.innerText.split('/')[0]));
+                //return item.id;
+        
+            console.log("id счета текущего вот", response.data[idAccount].id);
+            App.showPage( 'transactions', { "account_id" : response.data[idAccount].id });
+            return response.data[idAccount].id || undefined;
+          }
+
+            else{
+              console.log(err);
+            }
+      });
+       // console.log("id счета текущего вот",response.data[idAccount].id);
+       // return response.data[idAccount].id|| undefined;
+     }//is Current Data
+
 
     if (isActive() !== -1) {
       allAccount[isActive()].classList.remove('active');
       allAccount[isCurrent()].classList.add('active');//?
       // App.showPage( 'transactions', { account_id: id_счёта });
-     App.showPage( 'transactions', { account_id : `${response.data[isCurrentData ()].id}` });
+    // App.showPage( 'transactions', { account_id : `${response.data[isCurrentData ()].id}` });
+   // console.log("идентификатор аккаунта", element.closest('.account').querySelector(".span").innerText);
+   // App.showPage( 'transactions', { "account_id" : `${element.closest('a').querySelector(".span").innerText.split('/')}` });
+    //console.log("идентификатор аккаунта", element.innerText.split('/')[0]);
+   // App.showPage( 'transactions', { "account_id" : `${element.innerText.split('/')[0]}` });
+   isCurrentData ();
+    /*console.log("идентификатор аккаунта", isCurrentData());
+    App.showPage( 'transactions', { "account_id" : isCurrentData() });*/
     }
     else {
       allAccount[isCurrent()].classList.add('active');// на чем вызвать
-      App.showPage( 'transactions', { account_id : `${response.data[isCurrentData ()].id}` });
+      //App.showPage( 'transactions', { account_id : `${response.data[isCurrentData ()].id}` });
+     // elem.matches)
+     //  console.log("идентификатор аккаунта", element.innerText.split('/')[0]);
+     //console.log("идентификатор аккаунта", isCurrentData());
+
+     // App.showPage( 'transactions', { "account_id" : `${element.innerText.split('/')[0]}` });
+      isCurrentData ();
+    //App.showPage( 'transactions', { "account_id" : isCurrentData() });
     }
   }
 
