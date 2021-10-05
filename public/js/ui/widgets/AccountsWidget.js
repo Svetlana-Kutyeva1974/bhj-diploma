@@ -15,7 +15,7 @@ class AccountsWidget {
    * */
   constructor( element ) {
     if (element === null) {
-      alert("Ошибка. Элемент не задан");
+      alert("Ошибка. Элемент не задан");//throw new Error('Ошибка. Элемент не задан');
     }
     else{
       this.element = element;
@@ -35,11 +35,8 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-   // this.element.querySelector('.create-account').addEventListener('click', ()=> {
-    // document.querySelector('span.fa-plus').addEventListener('click', ()=> {
     document.querySelector('.pull-right').addEventListener('click', ()=> {
       App.getModal('createAccount').open();
-     
     });
 
    /*let accounts = document.querySelector('ul.accounts-panel');
@@ -71,15 +68,11 @@ class AccountsWidget {
    * */
   update() {
     let currentUser = User.current();
-    console.log("текущий User для списка---- "+ currentUser);
+    //console.log("текущий User для списка---- "+ currentUser);
     if (currentUser && currentUser != undefined) {
       Account.list(currentUser, (err, response) => {
         if (response && response.success === true) {
-          console.log("списоктекущ User ", response, response.data);
-          //this.clear();
-          //this.renderItem(response.data);
-          
-          
+          // console.log("списоктекущ User ", response, response.data);
           this.clear();
           this.renderItem(response.data);
           this.registerEvents();//заново, т.к. перерисовали и не работает клик
@@ -87,10 +80,8 @@ class AccountsWidget {
         else{
           console.log(err);
         }
-
       });
    }
-
   }
 
   /**
@@ -120,55 +111,35 @@ class AccountsWidget {
      function isActive () {
         return (allAccount.findIndex((item) => (item.classList.contains('active'))));
      }
-     console.log(isActive());
+     //console.log(isActive());
      function isCurrent () {
         return (allAccount.findIndex((item) => (item === element.closest('.account'))));
      }
-     console.log(isCurrent ());
+    // console.log(isCurrent ());
       
-      function isCurrentData () {
+     function isCurrentData () {
         let idAccount;
         Account.list(User.current(), (err, response) => {
           if (response && response.success === true) {
-            console.log("списоктекущ User для поиска счета ", response, response.data);
+            //console.log("списоктекущ User для поиска счета ", response, response.data);
             idAccount =  response.data.findIndex((item) => (item.name === element.innerText.split('/')[0]));
-                //return item.id;
-        
-            console.log("id счета текущего вот", response.data[idAccount].id);
+           // console.log("id счета текущего вот", response.data[idAccount].id);
             App.showPage( 'transactions', { "account_id" : response.data[idAccount].id });
             return response.data[idAccount].id || undefined;
           }
-
-            else{
+            else {
               console.log(err);
             }
-      });
-       // console.log("id счета текущего вот",response.data[idAccount].id);
-       // return response.data[idAccount].id|| undefined;
+        });
      }//is Current Data
-
 
     if (isActive() !== -1) {
       allAccount[isActive()].classList.remove('active');
       allAccount[isCurrent()].classList.add('active');//?
-      // App.showPage( 'transactions', { account_id: id_счёта });
-    // App.showPage( 'transactions', { account_id : `${response.data[isCurrentData ()].id}` });
-   // console.log("идентификатор аккаунта", element.closest('.account').querySelector(".span").innerText);
-   // App.showPage( 'transactions', { "account_id" : `${element.closest('a').querySelector(".span").innerText.split('/')}` });
-    //console.log("идентификатор аккаунта", element.innerText.split('/')[0]);
-   // App.showPage( 'transactions', { "account_id" : `${element.innerText.split('/')[0]}` });
-   isCurrentData ();
-    /*console.log("идентификатор аккаунта", isCurrentData());
-    App.showPage( 'transactions', { "account_id" : isCurrentData() });*/
+      isCurrentData ();
     }
     else {
       allAccount[isCurrent()].classList.add('active');// на чем вызвать
-      //App.showPage( 'transactions', { account_id : `${response.data[isCurrentData ()].id}` });
-     // elem.matches)
-     //  console.log("идентификатор аккаунта", element.innerText.split('/')[0]);
-     //console.log("идентификатор аккаунта", isCurrentData());
-
-     // App.showPage( 'transactions', { "account_id" : `${element.innerText.split('/')[0]}` });
       isCurrentData ();
     //App.showPage( 'transactions', { "account_id" : isCurrentData() });
     }
