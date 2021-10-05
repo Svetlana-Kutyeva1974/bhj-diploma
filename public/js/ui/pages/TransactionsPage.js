@@ -11,6 +11,17 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor( element ) {
+    if (element === null) {
+
+      alert("Ошибка. Элемент не задан");
+    }
+    else{
+      this.element = element;
+      console.log("акаунтWidget"+ this.element);
+
+    }
+    this.element = element;
+    this.registerEvents();
 
   }
 
@@ -28,6 +39,20 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
+    //this.element.addEventListener('submit', (e) => {
+      document.querySelector('button.remove-account').addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.removeAccount.bind(this);
+      //this.removeAccount(e.target);
+    
+    });
+
+    /*  document.querySelector('button.transaction__remove').addEventListener('submit', (e) => {
+      e.preventDefault();
+      //e.target.dataset.id;
+      this.removeTransaction(e.target.dataset.id);//this.removeTransaction(this.element.id);
+      
+    });*/ // пока не отрисуем транзакцию не раскомментируем
 
   }
 
@@ -41,6 +66,28 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
+    let questionModal = confirm('Вы согласны удалить счет?');
+      if (questionModal) {
+        console.log('вы ответили да');
+        Account.remove(this, ( err, response ) => {
+           console.log( " счет удален", response ); 
+           if (response && response.success === true) {
+            //console.log("счет", response.account);
+            //this.element.reset();
+            this.clear();
+            App.update();//App.updateWidgets();
+           }
+            else {
+              alert(response.err);
+            }
+        });  
+
+
+      } else {
+        console.log('вы ответили нет');
+        return;
+
+      }
 
   }
 
@@ -51,6 +98,28 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction( id ) {
+    let questionModal = confirm('Вы согласны удалить транзакцию?');
+      if (oquestionModal) {
+        console.log('вы ответили да');
+        Transaction.remove(id, ( err, response ) => {
+           console.log( " счет удален", response ); 
+           if (response && response.success === true) {
+            //console.log("счет", response.account);
+            //this.element.reset();
+            this.clear();
+            App.update();//App.updateWidgets();
+           }
+            else {
+              alert(response.err);
+            }
+        });  
+
+
+      } else {
+        console.log('вы ответили нет');
+        return;
+
+      }
 
   }
 
@@ -61,7 +130,60 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options){
+    if (Object.keys(options).length !== 0) {
+      this.lastOptions = options;//static lastOptions = options;
+      Account.get({id : options.account_id}, ( err, response ) => {
+           console.log( " счет получен", response ); 
+           if (response && response.success === true) {
+            console.log("счет", response.data.name);
+            //this.element.reset();
+            this.renderTitle(response.data.name);
+            //App.update();//App.updateWidgets();
 
+            //для счета получаем транзакции?
+
+            //Transaction.list({url: `/${response.data.id}`, data : {}}, (err, response) => {
+              Transaction.list({account_id: this.lastOptions.account_id}, (err, response) => {
+                if (response && response.success === true) {
+                  console.log("спис транзакций ", response);
+                  this.renderTransactions(response);
+                 // this.registerEvents();//заново, т.к. перерисовали и не работает клик
+                }
+              else{
+                console.log(err);
+              }
+               //callback(err, response);
+            });
+
+
+           }
+            else {
+              alert(response.err);
+            }
+        });  
+
+     /* let currentUser = User.current();
+      console.log("текущий User для списка---- "+ currentUser);
+      if (currentUser && currentUser != undefined) {*/
+        /*Transaction.list(response, (err, response) => {
+          if (response && response.success === true) {
+            console.log("списоктекущ User ", response, response.data);
+            //this.clear();
+            //this.renderItem(response.data);
+            
+            
+            this.clear();
+            this.renderItem(response.data);
+            this.registerEvents();//заново, т.к. перерисовали и не работает клик
+          }
+          else{
+            console.log(err);
+          }
+
+        });*/
+     // }
+
+    }//if
   }
 
   /**
@@ -70,6 +192,7 @@ class TransactionsPage {
    * Устанавливает заголовок: «Название счёта»
    * */
   clear() {
+   this.renderTransactions([]);
 
   }
 
@@ -77,6 +200,7 @@ class TransactionsPage {
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name){
+    document.querySelector('span.content-title').innerText = name;
 
   }
 
@@ -85,15 +209,16 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate(date){
-    
-    //const arr Data =date. split('') ;//массив
-   // const resultdate =arrData[0].split('-');
+    date = "2019-03-10 03:20:41" ;
+    const arrData = date. split('') ;//массив
+    const resultdate = arrData[0].split('-');
     /*
     const today = new Date( arrData[0] ) ;
     today.toLocaleString('default', { month: 'short' });
     */
-    //const month = ['января' , 'февраля' , 'марта' , 'апреля', 'мая' , 'июня' , 'июля', 'августа' , 'сентября' , 'октября' , 'ноября' , 'декабря' ] 
-    //return `${ resultdate[3]}${month [Number(resultdate[2])]}${resultdate[1]}${arrData[1].splice(6,3)}`;
+    const month = ['января' , 'февраля' , 'марта' , 'апреля', 'мая' , 'июня' , 'июля', 'августа' , 'сентября' , 'октября' , 'ноября' , 'декабря' ] 
+    return `${ resultdate[3]}${month [Number(resultdate[2])]}${resultdate[1]}${arrData[1].splice(6,3)}`;
+    
   }
 
   /**
