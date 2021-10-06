@@ -73,7 +73,8 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-    if (this.lastOptions) {
+   // if (this.lastOptions) {
+    if (this.lastOptions.account_id !== '') {
     let questionModal = confirm('Вы согласны удалить счет?');
       if (questionModal) {
         console.log('вы ответили да');
@@ -218,10 +219,6 @@ class TransactionsPage {
     //date = "2019-03-10 03:20:41" ;
     const arrData = date. split("T") ;//массив
     const resultdate = arrData[0].split('-');
-    /*
-    const today = new Date( arrData[0] ) ;
-    today.toLocaleString('default', { month: 'short' });
-    */
     const month = ['января' , 'февраля' , 'марта' , 'апреля', 'мая' , 'июня' , 'июля', 'августа' , 'сентября' , 'октября' , 'ноября' , 'декабря' ] 
     if (resultdate[1] === 0) {
       resultdate[1] = '12';
