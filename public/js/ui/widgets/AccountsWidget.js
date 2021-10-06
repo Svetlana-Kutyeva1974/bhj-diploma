@@ -124,8 +124,12 @@ class AccountsWidget {
             //console.log("списоктекущ User для поиска счета ", response, response.data);
             idAccount =  response.data.findIndex((item) => (item.name === element.innerText.split('/')[0]));
            // console.log("id счета текущего вот", response.data[idAccount].id);
-            App.showPage( 'transactions', { "account_id" : response.data[idAccount].id });
+            if (idAccount !== -1) {
+            App.showPage( 'transactions', { "account_id" : response.data[idAccount]["id"] });
+            //App.showPage( 'transactions', { "account_id" : response.data[idAccount].id });
             return response.data[idAccount].id || undefined;
+            }
+            
           }
             else {
               console.log(err);
