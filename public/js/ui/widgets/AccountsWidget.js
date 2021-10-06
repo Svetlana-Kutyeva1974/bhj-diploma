@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Класс AccountsWidget управляет блоком
  * отображения счетов в боковой колонке
  * */
@@ -15,15 +15,15 @@ class AccountsWidget {
    * */
   constructor( element ) {
     if (element === null) {
-      alert("Ошибка. Элемент не задан");//throw new Error('Ошибка. Элемент не задан');
+      //alert("Ошибка. Элемент не задан");//
+      throw new Error('Ошибка. Элемент не задан');
     }
     else{
       this.element = element;
-      console.log("акаунтWidget"+ this.element);
-
     }
     this.registerEvents();
     this.update();
+    this.accountList = {};
 
   }
 
@@ -39,15 +39,7 @@ class AccountsWidget {
       App.getModal('createAccount').open();
     });
 
-   /*let accounts = document.querySelector('ul.accounts-panel');
-      accounts.addEventListener('click', (event)=> {
-        event.preventDefault();
-        if (event.target.matches('.account')) {
-          this.onSelectAccount(event.target);
-        }
-      });*/
-
-      document.querySelectorAll('.account').forEach((item) => {
+    document.querySelectorAll('.account').forEach((item) => {
         item.addEventListener('click', (event) => {
           event.preventDefault();
           this.onSelectAccount(event.target);
@@ -68,14 +60,13 @@ class AccountsWidget {
    * */
   update() {
     let currentUser = User.current();
-    //console.log("текущий User для списка---- "+ currentUser);
     if (currentUser && currentUser != undefined) {
       Account.list(currentUser, (err, response) => {
         if (response && response.success === true) {
-          // console.log("списоктекущ User ", response, response.data);
+          this.accountList = response.data;
           this.clear();
           this.renderItem(response.data);
-          this.registerEvents();//заново, т.к. перерисовали и не работает клик
+          this.registerEvents();//заново, т.к. перерисовали и не работает клик?
         }
         else{
           console.log(err);
@@ -121,15 +112,7 @@ class AccountsWidget {
         let idAccount;
         Account.list(User.current(), (err, response) => {
           if (response && response.success === true) {
-            //console.log("списоктекущ User для поиска счета ", response, response.data);
-            idAccount =  response.data.findIndex((item) => (item.name === element.innerText.split('/')[0]));
-           // console.log("id счета текущего вот", response.data[idAccount].id);
-            if (idAccount !== -1) {
-            App.showPage( 'transactions', { "account_id" : response.data[idAccount]["id"] });
-            //App.showPage( 'transactions', { "account_id" : response.data[idAccount].id });
-            return response.data[idAccount].id || undefined;
-            }
-            
+            App.showPage( 'transactions', { "account_id" : response.data[isCurrent ()]["id"] });
           }
             else {
               console.log(err);
@@ -140,13 +123,12 @@ class AccountsWidget {
     if (isActive() !== -1) {
       allAccount[isActive()].classList.remove('active');
       allAccount[isCurrent()].classList.add('active');//?
-      isCurrentData ();
     }
     else {
       allAccount[isCurrent()].classList.add('active');// на чем вызвать
-      isCurrentData ();
-    //App.showPage( 'transactions', { "account_id" : isCurrentData() });
     }
+   // isCurrentData ();
+   App.showPage( 'transactions', { "account_id" : this.accountList[isCurrent ()]["id"] });
   }
 
   /**
@@ -155,24 +137,6 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
-    console.log('отрисовываем', `
-      <li class="account">
-        <a href="#">
-          <span>${item.name}</span> /
-          <span>${item.sum} ₽</span>
-        </a>
-      </li>
-    `);
-    /*
-  if (item !== "") {
-    let accountHTMLElement = document.createElement('li');
-    accountHTMLElement.classList.add('active account');
-    let childrens = document.querySelector('.accounts-panel').children;
-    childrens[childrens.length-1].insertAdjacentElement('afterEnd', accountHTMLElement);
-    childrens[childrens.length-1].insertAdjacentHTML('beforeEnd',`<a href="#">
-        <span>${item.name}</span> /
-        <span>${item.sum} ₽</span>
-      </a>`);*/
     return `
       <li class="account">
         <a href="#">
@@ -181,19 +145,7 @@ class AccountsWidget {
         </a>
       </li>
     `;
-
   }
-  /*так проще:
-
-   {document.querySelector('ul.accounts-panel').innerHTML += `
-    <li class="account">
-      <a href="#">
-        <span>${item.name}</span> /
-        <span>${item.sum} ₽</span>
-      </a>
-    </li>
-    `;}*/
-
 
   /**
    * Получает массив с информацией о счетах.
@@ -206,7 +158,6 @@ class AccountsWidget {
       data.forEach((item) => {
         document.querySelector('ul.accounts-panel').innerHTML += this.getAccountHTML(item);
       });
-      //document.querySelector('ul.accounts-panel').children[1].classList.add('active');
     }  
   }
 }
