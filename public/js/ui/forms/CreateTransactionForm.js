@@ -31,26 +31,7 @@ class CreateTransactionForm extends AsyncForm {
                 }
                 accountListInSelect2.innerHTML = accountListInSelect.innerHTML;
         
-           //const arrSelect = Array.from(document.querySelectorAll('.select'));
-          //Array.from(document.querySelectorAll('.select')).forEach ((accountListInSelect) => {
           
-          /*  Array.from(document.querySelectorAll('.select')).forEach ((accountListInSelect) => {
-            accountListInSelect.innerHTML = "";
-                for (let item of response.data) {
-                  let accountElement = `<option value="${item.id}">${item.name}</option>`;
-                  accountListInSelect.innerHTML += accountElement;
-                }
-            });
-          */
-
-         /* accountElement.addEventListener('change', event => {
-      console.log(accountElement.value);
-      // значение value выбранного элемента 
-      console.log(accountElement.selectedIndex);
-      // порядковый номер выбранного элемента
-      console.log(accountElement.options[accountElement.selectedIndex].text);
-      // текст выбранной опции 
-    });*/
 
         }
       });
