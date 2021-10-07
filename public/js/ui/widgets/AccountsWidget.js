@@ -102,32 +102,18 @@ class AccountsWidget {
      function isActive () {
         return (allAccount.findIndex((item) => (item.classList.contains('active'))));
      }
-     //console.log(isActive());
+ 
      function isCurrent () {
         return (allAccount.findIndex((item) => (item === element.closest('.account'))));
      }
-    // console.log(isCurrent ());
-      
-     function isCurrentData () {
-        let idAccount;
-        Account.list(User.current(), (err, response) => {
-          if (response && response.success === true) {
-            App.showPage( 'transactions', { "account_id" : response.data[isCurrent ()]["id"] });
-          }
-            else {
-              console.log(err);
-            }
-        });
-     }//is Current Data
 
     if (isActive() !== -1) {
       allAccount[isActive()].classList.remove('active');
-      allAccount[isCurrent()].classList.add('active');//?
+      allAccount[isCurrent()].classList.add('active');
     }
     else {
-      allAccount[isCurrent()].classList.add('active');// на чем вызвать
+      allAccount[isCurrent()].classList.add('active');
     }
-   // isCurrentData ();
    App.showPage( 'transactions', { "account_id" : this.accountList[isCurrent ()]["id"] });
   }
 
