@@ -80,7 +80,7 @@ class TransactionsPage {
         console.log('вы ответили да');
         //Account.remove(this.lastOptions.account_id, ( err, response ) => {
           const dataRemove = new FormData();
-          dataRemove.append(`account_id`, this.lastOptions.account_id); 
+          dataRemove.append(`id`, this.lastOptions.account_id); 
 
           Account.remove(dataRemove, ( err, response ) => {
            console.log( " счет удален", response ); 
