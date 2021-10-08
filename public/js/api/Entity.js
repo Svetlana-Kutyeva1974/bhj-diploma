@@ -80,9 +80,9 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove(data, callback ) {
-    console.log( 'Данные,', data.get(`account_id`));
+    console.log( 'Данные,', data.get(`id`));
     if (this.URL === '/account') {
-      this.URL = this.URL + `/${data.get(`account_id`)}`;
+      this.URL = this.URL + `/${data.get(`id`)}`;
       data = {};
     }
     createRequest({
