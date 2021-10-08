@@ -50,17 +50,16 @@ class TransactionsPage {
       //this.removeAccount(e.target);
     
     });
-
-   Array.from(document.querySelectorAll('button.transaction__remove')).forEach((item) => {
+  const section = document.querySelector('section.content');
+   Array.from(section.querySelectorAll('button.transaction__remove')).forEach((item) => {
         addEventListener('click', (e) => {
           e.preventDefault(); 
-          //e.target.dataset.id;
-          //const id = e.target.closest('button.transaction__remove').getAttribute('data-id');
-          const id = e.target.closest('button.transaction__remove').dataset.id;
-          //this.removeTransaction(e.target.parentElement.dataset.id);//this.removeTransaction(this.element.id);
+          if (item.dataset.id !== null) {
+          const id = item.dataset.id;
           this.removeTransaction(id);
+        }
 
-        });   // пока не отрисуем транзакцию не раскомментируем
+        });   
   });
   }
   /**
@@ -80,7 +79,7 @@ class TransactionsPage {
         console.log('вы ответили да');
         //Account.remove(this.lastOptions.account_id, ( err, response ) => {
           const dataRemove = new FormData();
-          dataRemove.append(`id`, this.lastOptions.account_id); 
+          dataRemove.append(`id`, `${this.lastOptions.account_id}`); 
 
           Account.remove(dataRemove, ( err, response ) => {
            console.log( " счет удален", response ); 
@@ -162,8 +161,6 @@ class TransactionsPage {
             //App.update();//App.updateWidgets();
 
             //для счета получаем транзакции?
-
-            //Transaction.list({url: `/${response.data.id}`, data : {}}, (err, response) => {
               Transaction.list({account_id: this.lastOptions.account_id}, (err, response) => {
                 if (response && response.success === true) {
                   console.log("спис транзакций ", response.data);
