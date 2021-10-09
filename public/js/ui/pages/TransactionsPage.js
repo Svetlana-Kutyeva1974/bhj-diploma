@@ -22,17 +22,17 @@ class TransactionsPage {
     }
     this.element = element;
     this.registerEvents();
-    //this.update();
-
+    //this.update();? Надо Вызывать? 
+    //this.lastOptions = element;
   }
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-   this.renderTransactions([]);
-//this.render(this.element);//вот так Отрисовка? 
-   //this.render(this.lastOptions);
+   this.renderTransactions([]);//заглушка
+   //this.render(this.element);//вот так Отрисовка? 
+   //this.render(this.lastOptions);// или обще
 
   }
 
@@ -46,8 +46,7 @@ class TransactionsPage {
     //this.element.addEventListener('submit', (e) => {
       document.querySelector('button.remove-account').addEventListener('click', (e) => {
       e.preventDefault();
-      //TransactionsPage.removeAccount();
-       this.removeAccount() ;
+      this.removeAccount() ;
     
     });
   const section = document.querySelector('section.content');
@@ -56,7 +55,6 @@ class TransactionsPage {
           e.preventDefault(); 
           if (item.dataset.id !== null) {
           const id = item.dataset.id;
-          //TransactionsPage.removeTransaction(id);
           this.removeTransaction(id);
         }
 
@@ -78,12 +76,11 @@ class TransactionsPage {
     let questionModal = confirm('Вы согласны удалить счет?');
       if (questionModal) {
         console.log('вы ответили да');
-        //Account.remove(this.lastOptions.account_id, ( err, response ) => {
           const dataRemove = new FormData();
           dataRemove.append(`id`, `${this.lastOptions.account_id}`); 
 
           Account.remove(dataRemove, ( err, response ) => {
-           console.log( " счет удален", response ); 
+          console.log( " счет удален", response ); 
            if (response && response.success === true) {
             //console.log("счет", response.account);
             this.clear();
@@ -123,12 +120,11 @@ class TransactionsPage {
         Transaction.remove(dataRemove, ( err, response ) => {
            console.log( " счет удален", response ); 
            if (response && response.success === true) {
-            //console.log("счет", response.account);
-            //this.element.reset();
+         
             this.clear();
             //this.update();//App.update();//
             App.update();//App.updateWidgets();
-            this.render(this.lastOptions);
+            this.render(this.lastOptions);//если в update будет render, то удалить эту строку
             //this.registerEvents();//?
            }
             else {
@@ -156,12 +152,11 @@ class TransactionsPage {
            console.log( " счет получен", response ); 
            if (response && response.success === true) {
             console.log("счет", response.data.name);
-            //this.element.reset();
+           
             //this.clear();
             this.renderTitle(response.data.name);
             //App.update();//App.updateWidgets();
 
-            //для счета получаем транзакции?
               Transaction.list({account_id: this.lastOptions.account_id}, (err, response) => {
                 if (response && response.success === true) {
                   console.log("спис транзакций ", response.data);
