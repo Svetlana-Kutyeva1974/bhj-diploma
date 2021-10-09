@@ -17,7 +17,7 @@ class TransactionsPage {
     }
     else{
       this.element = element;
-      console.log("акаунтWidget"+ this.element);
+      console.log("элемент-обьект:аккаунт" + this.element);
 
     }
     this.element = element;
@@ -31,6 +31,7 @@ class TransactionsPage {
    * */
   update() {
    this.renderTransactions([]);
+//this.render(this.element);//вот так Отрисовка? 
    //this.render(this.lastOptions);
 
   }
