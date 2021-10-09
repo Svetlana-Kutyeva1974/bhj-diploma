@@ -121,7 +121,7 @@ class TransactionsPage {
            console.log( " счет удален", response ); 
            if (response && response.success === true) {
          
-            this.clear();
+            //this.clear();
             //this.update();//App.update();//
             App.update();//App.updateWidgets();
             this.render(this.lastOptions);//если в update будет render, то удалить эту строку
@@ -194,7 +194,7 @@ class TransactionsPage {
       }
    this.renderTransactions([]);
    //this.renderTitle('Название счёта');
-  // this.lastOptions = "";
+  // this.lastOptions = "";//или this.element
   }
 
   /**
