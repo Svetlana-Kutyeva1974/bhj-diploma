@@ -45,8 +45,8 @@ class TransactionsPage {
     //this.element.addEventListener('submit', (e) => {
       document.querySelector('button.remove-account').addEventListener('click', (e) => {
       e.preventDefault();
-      TransactionsPage.removeAccount();
-      //this.removeAccount() ;
+      //TransactionsPage.removeAccount();
+       this.removeAccount() ;
     
     });
   const section = document.querySelector('section.content');
@@ -55,8 +55,8 @@ class TransactionsPage {
           e.preventDefault(); 
           if (item.dataset.id !== null) {
           const id = item.dataset.id;
-          TransactionsPage.removeTransaction(id);
-          //this.removeTransaction(id);
+          //TransactionsPage.removeTransaction(id);
+          this.removeTransaction(id);
         }
 
         });   
