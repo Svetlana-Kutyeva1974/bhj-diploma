@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Класс AsyncForm управляет всеми формами
  * приложения, которые не должны быть отправлены с
  * перезагрузкой страницы. Вместо этого данные
@@ -14,10 +14,10 @@ class AsyncForm {
    * */
   constructor(element) {
     this.element = element;
-    console.log(this.element);
+    this.registerEvents();
 
     if (this.element === null) {
-      alert("Невозможно открыть окно формы");
+      console.log("Невозможно открыть окно формы");
     }
     else {
       this.registerEvents();
@@ -44,21 +44,19 @@ class AsyncForm {
    * */
   getData() {
     const formData = new FormData( this.element );
-    console.log(` Вот исходной формы: ${formData}`);
     const entries = formData.entries();
-    let result = new FormData();
+    const result = new FormData();
+
     for (let item of entries ) {
       const key = item[ 0 ],
       value = item[ 1 ];
-      console.log(` Вот данные формы: ${key}: ${value}`);
+      console.log(` Вот данные формы: ${item[ 0 ]}: ${item[ 1 ]}`);
        result.append(item[ 0 ], item[ 1 ]);
-     // result.push({`${item}:${formData[item]}`});
     }
      return result;
   }
 
   onSubmit(options){
-    console.log( options );
   }
 
   /**

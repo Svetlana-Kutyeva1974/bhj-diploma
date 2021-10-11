@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Класс RegisterForm управляет формой
  * регистрации
  * */
@@ -17,12 +17,9 @@ class RegisterForm extends AsyncForm {
         App.getModal('register').close();//закрывает окно, в котором находится форма
       }
       else {
-          console.log (err);
+          alert (response.err);
+          //console.log(err);
       }
     });
-   /* 
-    this.element.reset();
-    App.setState( 'user-logged' );
-    App.getModal('register').close();//закрывает окно, в котором находится форма*/
   }
 }

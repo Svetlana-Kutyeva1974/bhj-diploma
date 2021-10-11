@@ -18,7 +18,7 @@ class LoginForm extends AsyncForm {
         App.getModal('login').close();
        }
         else {
-          alert(err);
+          console.log(err);
         }
     });
   }

@@ -30,9 +30,6 @@ class CreateTransactionForm extends AsyncForm {
                   accountListInSelect.innerHTML += accountElement;
                 }
                 accountListInSelect2.innerHTML = accountListInSelect.innerHTML;
-        
-          
-
         }
       });
     }
@@ -46,16 +43,16 @@ class CreateTransactionForm extends AsyncForm {
    * */
   onSubmit(data) {
     Transaction.create(data, ( err, response ) => {
-       console.log( "  получен", response ); 
+       //console.log( "  получен", response ); 
        if (response && response.success === true) {
-        console.log("новfz  транз", response);
+        //console.log("новfz  транз", response);
         this.element.reset();
         const idModal = this.element.closest('div.modal').getAttribute('data-modal-id');
         App.getModal(`${idModal}`).close();
         App.update();
        }
         else {
-          alert(response.err);
+          console.log(response.err);
         }
     });  
   }
