@@ -14,7 +14,7 @@ class AsyncForm {
    * */
   constructor(element) {
     this.element = element;
-    this.registerEvents();
+    //this.registerEvents();
 
     if (this.element === null) {
       console.log("Невозможно открыть окно формы");
