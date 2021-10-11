@@ -38,17 +38,14 @@ class Sidebar {
       console.log(this);
       let nameModal = this.children[0].innerText;
        if (nameModal === "Вход") {
-        //App.getModal("login");
         App.getModal("login").open();
        }
 
        if (nameModal === "Регистрация") {
-        //App.getModal("register");
         App.getModal("register").open();
        }
 
        if (nameModal === "Выйти") {
-        // User.logout(callback);
          User.logout(( err, response ) => {
           console.log( response ); // Ответ
           if (response && response.success === true) {
@@ -57,13 +54,11 @@ class Sidebar {
           console.log(err);
          
         });
-     // App.getModal();//#modal-register
-       }//if
+       }
        
     }//func
 
     document.querySelectorAll("ul.sidebar-menu li.menu-item").forEach((item) => {
-      //item.addEventListener('click', clickNodeRegister);
       item.addEventListener('click', clickNodeRegister);
     });
 
