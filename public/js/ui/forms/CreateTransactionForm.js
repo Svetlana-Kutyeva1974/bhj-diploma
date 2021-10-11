@@ -43,13 +43,11 @@ class CreateTransactionForm extends AsyncForm {
    * */
   onSubmit(data) {
     Transaction.create(data, ( err, response ) => {
-       //console.log( "  получен", response ); 
        if (response && response.success === true) {
-        //console.log("новfz  транз", response);
-        this.element.reset();
         const idModal = this.element.closest('div.modal').getAttribute('data-modal-id');
-        App.getModal(`${idModal}`).close();
         App.update();
+        this.element.reset();
+        App.getModal(`${idModal}`).close();
        }
         else {
           console.log(response.err);
