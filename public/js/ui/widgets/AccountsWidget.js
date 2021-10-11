@@ -18,9 +18,9 @@ class AccountsWidget {
       //alert("Ошибка. Элемент не задан");//
       throw new Error('Ошибка. Элемент не задан');
     }
-    else{
+  else{
       this.element = element;
-    }
+   }
     this.registerEvents();
     this.update();
     this.accountList = {};
@@ -43,7 +43,6 @@ class AccountsWidget {
         item.addEventListener('click', (event) => {
           event.preventDefault();
           this.onSelectAccount(event.target);
-         // this.update();
       });
       });  
   }
@@ -102,19 +101,20 @@ class AccountsWidget {
      function isActive () {
         return (allAccount.findIndex((item) => (item.classList.contains('active'))));
      }
- 
+
      function isCurrent () {
         return (allAccount.findIndex((item) => (item === element.closest('.account'))));
      }
 
     if (isActive() !== -1) {
       allAccount[isActive()].classList.remove('active');
-      allAccount[isCurrent()].classList.add('active');
+      allAccount[isCurrent()].classList.add('active');//?
     }
     else {
-      allAccount[isCurrent()].classList.add('active');
+      allAccount[isCurrent()].classList.add('active');// на чем вызвать
     }
-   App.showPage( 'transactions', { "account_id" : this.accountList[isCurrent ()]["id"] });
+
+   App.showPage( 'transactions', { "account_id" : this.accountList[isCurrent()]["id"]} );
   }
 
   /**

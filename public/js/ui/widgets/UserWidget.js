@@ -17,10 +17,8 @@ class UserWidget {
     }
     else{
       this.element = element;
-      console.log("UserWidget"+ this.element);
-
     }
-   //this.update();//?
+  // this.update();//?
   }
 
   /**
@@ -32,10 +30,7 @@ class UserWidget {
    * */
   update(){
     let currentUser = User.current(); 
-    console.log("текущий User---- "+ currentUser);
     if (currentUser && currentUser != undefined) {
-    // document.querySelector(".user-panel").children[1].querySelector('p.user-name').innerHTML = currentUser.name;
-    //document.querySelector(".user-name").textContent= JSON.parse(currentUser).name;
     document.querySelector(".user-name").textContent= currentUser.name;
    }
    else {
