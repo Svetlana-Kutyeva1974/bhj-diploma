@@ -12,28 +12,26 @@ class TransactionsPage {
    * */
   constructor( element ) {
     if (element === null) {
-
-      alert("Ошибка. Элемент не задан");
+      throw new Error('Ошибка. Элемент не задан');
     }
     else{
       this.element = element;
-      console.log("элемент-обьект:аккаунт" + this.element);
 
     }
     this.element = element;
     this.registerEvents();
-    //this.update();? Надо Вызывать? 
-    //this.lastOptions = element;
+    this.accountGet = {};
+    this.lastOptions = {};
+    this.update();
+
   }
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-   this.renderTransactions([]);//заглушка
-   //this.render(this.element);//вот так Отрисовка? 
-   //this.render(this.lastOptions);// или обще
-
+   //this.renderTransactions([]);
+   this.render(this.lastOptions);
   }
 
   /**
@@ -43,23 +41,17 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    //this.element.addEventListener('submit', (e) => {
-      document.querySelector('button.remove-account').addEventListener('click', (e) => {
+    this.element.addEventListener("click", e => {
       e.preventDefault();
-      this.removeAccount() ;
-    
+      const removeAccount = e.target.closest(".remove-account");
+      const removeTransaction = e.target.closest(".transaction__remove");
+      if (removeAccount) {
+        this.removeAccount();
+      }
+      if (removeTransaction) {
+        this.removeTransaction(removeTransaction.getAttribute('data-id'));
+      }
     });
-  const section = document.querySelector('section.content');
-   Array.from(section.querySelectorAll('button.transaction__remove')).forEach((item) => {
-        addEventListener('click', (e) => {
-          e.preventDefault(); 
-          if (item.dataset.id !== null) {
-          const id = item.dataset.id;
-          this.removeTransaction(id);
-        }
-
-        });   
-  });
   }
   /**
    * Удаляет счёт. Необходимо показать диаголовое окно (с помощью confirm())
@@ -71,38 +63,45 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-   // if (this.lastOptions) {
+    //if (Object.keys(this.lastOptions).length !== 0) {
     if (this.lastOptions.account_id !== '') {
+     // console.log( " счет удаkляем этот", this.lastOptions.account_id ); 
     let questionModal = confirm('Вы согласны удалить счет?');
-      if (questionModal) {
-        console.log('вы ответили да');
-          const dataRemove = new FormData();
-          dataRemove.append(`id`, `${this.lastOptions.account_id}`); 
+      if (questionModal) {//да
+          let dataRemove = new FormData();
+            for (let item of Object.keys(this.accountGet) ) {
+             const key = item,
+               value = this.accountGet[item];
+               dataRemove.append(key, value);
+            }
+      
+            Account.remove(dataRemove, ( err, response ) => {
+              if (response && response.success === true) {
+              console.log( " счет удален", response ); 
+              this.clear();
+              //this.renderTitle('Название счёта');
+              //App.updateWidgets();//
+              App.update(); //было до этого App.update();
+             // this.renderTitle('Название счёта');//
+              //this.update();
+              //App.updateWidgets();//App.update()
 
-          Account.remove(dataRemove, ( err, response ) => {
-          console.log( " счет удален", response ); 
-           if (response && response.success === true) {
-            //console.log("счет", response.account);
-            this.clear();
-            App.update();//App.updateWidgets();
-            this.registerEvents();
+             // this.registerEvents();//было  в пред вар//не влияет на кнопку
+
            }
             else {
-              alert(response.err);
+              console.log(err);
             }
         });  
 
-
-      } else {
-        console.log('вы ответили нет');
+      } else {//нет
         return;
-
       }
     }//lastOptions
     else {
-        console.log('Невозможно удалить счет!');
-        return;
-      }
+      console.log('Невозможно удалить счет!');
+      return;
+    }
   }
 
   /**
@@ -113,30 +112,30 @@ class TransactionsPage {
    * */
   removeTransaction( id ) {
     let questionModal = confirm('Вы согласны удалить транзакцию?');
-      if (questionModal) {
-        console.log('вы ответили да');
+      if (questionModal) {//да
+
         const dataRemove = new FormData();
         dataRemove.append(`id`, `${id}`); 
-        Transaction.remove(dataRemove, ( err, response ) => {
-           console.log( " счет удален", response ); 
-           if (response && response.success === true) {
-         
-            //this.clear();
-            //this.update();//App.update();//
-            App.update();//App.updateWidgets();
-            this.render(this.lastOptions);//если в update будет render, то удалить эту строку
-            //this.registerEvents();//?
-           }
-            else {
-              alert(response.err);
-            }
-        });  
 
-      } else {
-        console.log('вы ответили нет');
+        Transaction.remove(dataRemove, ( err, response ) => {
+           console.log( " транзакцию удалили", response ); 
+           if (response && response.success === true) {
+              //console.log("счет", response.account);
+             this.clear();
+             App.update();//App.updateWidgets(); ////this.update();//
+             //App.updateWidgets();
+             this.render(this.lastOptions);
+             //this.registerEvents();//?
+  
+           }
+           else {
+             console.log(response.err);
+           }
+        });  
+      }
+      else {//ответ нет
         return;
       }
-
   }
 
   /**
@@ -149,30 +148,41 @@ class TransactionsPage {
     if (Object.keys(options).length !== 0) {
       this.lastOptions = options;//static lastOptions = options;
       Account.get({id : options.account_id}, ( err, response ) => {
-           console.log( " счет получен", response ); 
            if (response && response.success === true) {
             console.log("счет", response.data.name);
-           
+            this.accountGet = response.data;
             //this.clear();
-            this.renderTitle(response.data.name);
+            //this.renderTitle(response.data.name);
             //App.update();//App.updateWidgets();
 
               Transaction.list({account_id: this.lastOptions.account_id}, (err, response) => {
                 if (response && response.success === true) {
                   console.log("спис транзакций ", response.data);
                   this.clear();
+                  this.renderTitle(this.accountGet.name);
+                  this.renderTransactions(response.data);
+                  //App.update();
+
+                  //this.registerEvents();
+
+                  //this.update();//?!!!!! App.update иначе сабмиты не работают 2 раз
+                  //this.registerEvents();//заново, т.к. перерисовали и не работает клик
+                  
+                  /*было, когда работало
+                 this.clear();
                   this.renderTransactions(response.data);
                   this.registerEvents();//заново, т.к. перерисовали и не работает клик
+              */
                 }
-              else{
-                console.log(err);
-              }
+                else{
+                  console.log(err);
+                }
                //callback(err, response);
             });
 
            }
             else {
-              alert(response.err);
+              console.log(response.err);
             }
         });  
 
@@ -185,7 +195,7 @@ class TransactionsPage {
    * Устанавливает заголовок: «Название счёта»
    * */
   clear() {
-    const allTransactions = Array.from(document.querySelectorAll('div.transaction'));
+   const allTransactions = Array.from(document.querySelectorAll('div.transaction'));
       if ( allTransactions.length !== 0 ) {
         for (let item of allTransactions)
         {
@@ -193,14 +203,13 @@ class TransactionsPage {
         }
       }
    this.renderTransactions([]);
-   //this.renderTitle('Название счёта');
-  // this.lastOptions = "";//или this.element
+   this.renderTitle('Название счёта');
   }
 
   /**
    * Устанавливает заголовок в элемент .content-title
    * */
-  renderTitle(name){
+  renderTitle(name) {
     document.querySelector('span.content-title').innerText = name;
   }
 
@@ -209,16 +218,17 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate(date){
-    //date = "2019-03-10 03:20:41" ;
-    const arrData = date. split("T") ;//массив
-    const resultdate = arrData[0].split('-');
+    const arrData = date.substr(0,10) ;//массив demo  //"T"
+    //const arrTime = date.substr(11,5) ;
+    const arrTime = `${(Number(date.substr(11,2)) + 3)}` + date.substr(13,3);
+    const resultdate = arrData.split('-');
     const month = ['января' , 'февраля' , 'марта' , 'апреля', 'мая' , 'июня' , 'июля', 'августа' , 'сентября' , 'октября' , 'ноября' , 'декабря' ] 
-    if (resultdate[1] === 0) {
-      resultdate[1] = '12';
-    }
-    console.log(`${resultdate[2]}${month [Number(resultdate[1]-1)]}${resultdate[0]} ${arrData[1].substr(0, 5)}`);
-    return `${resultdate[2]} ${month [Number(resultdate[1]-1)]} ${resultdate[0]} ${arrData[1].substr(0, 5)}`;
-    
+      if (resultdate[1] === 0) {
+        resultdate[1] = '12';
+      }
+    return `${resultdate[2]} ${month [Number(resultdate[1]-1)]} ${resultdate[0]} г. в ${arrTime}`;
+  
+  
   }
 
   /**
@@ -264,6 +274,50 @@ class TransactionsPage {
       data.forEach((item) => {
         document.querySelector('section.content').innerHTML += this.getTransactionHTML(item);
       });
-    } 
+    }
+
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-------------vмусор
+ // dataRemove.append(`id`, `${this.lastOptions.account_id}`); 
+          //dataRemove.append(`url`, `/${this.lastOptions.account_id}`); 
+          //{id: `${this.lastOptions.account_id}`}
+         // dataRemove.append(`id`, `${this.lastOptions.account_id}`); 
+          //const data = {id : `${this.lastOptions.account_id}`};
+
+
+          /*const resultDate = new Date(date).toLocaleDateString('ru');
+  const resultdate = resultDate.split('.');
+  const month = ['января' , 'февраля' , 'марта' , 'апреля', 'мая' , 'июня' , 'июля', 'августа' , 'сентября' , 'октября' , 'ноября' , 'декабря' ] 
+    if (resultdate[1] === 0) {
+      resultdate[1] = '12';
+    }
+        return `${resultdate[0]} ${month [Number(resultdate[1]-1)]} ${resultdate[1]} г. в ${arrTime}`;
+*/
+/* const arrData = date.split("T") ;//массив demo  //"T"
+    const resultdate = arrData[0].split('-');
+    const month = ['января' , 'февраля' , 'марта' , 'апреля', 'мая' , 'июня' , 'июля', 'августа' , 'сентября' , 'октября' , 'ноября' , 'декабря' ] 
+    if (resultdate[1] === 0) {
+      resultdate[1] = '12';
+    }
+    return `${resultdate[2]} ${month [Number(resultdate[1]-1)]} ${resultdate[0]} ${arrData[1].substr(0, 5)}`;
+  */
