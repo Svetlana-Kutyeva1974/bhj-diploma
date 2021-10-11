@@ -13,15 +13,11 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor(element) {
+    if (element === null) {
+      throw new Error('Невозможно открыть окно формы, элемент пустой');
+    }
     this.element = element;
-    //this.registerEvents();
-
-    if (this.element === null) {
-      console.log("Невозможно открыть окно формы");
-    }
-    else {
-      this.registerEvents();
-    }
+    this.registerEvents();
   }
 
   /**
