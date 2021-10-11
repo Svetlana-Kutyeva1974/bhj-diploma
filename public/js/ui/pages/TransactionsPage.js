@@ -21,7 +21,7 @@ class TransactionsPage {
     this.element = element;
     this.registerEvents();
     this.accountGet = {};
-    this.lastOptions = {};
+    this.lastOptions = element;
     this.update();
 
   }
@@ -30,8 +30,7 @@ class TransactionsPage {
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-   //this.renderTransactions([]);
-   this.render(this.lastOptions);
+   this.render(this.lastOptions);//this.renderTransactions([]);
   }
 
   /**
@@ -63,9 +62,7 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-    //if (Object.keys(this.lastOptions).length !== 0) {
     if (this.lastOptions.account_id !== '') {
-     // console.log( " счет удаkляем этот", this.lastOptions.account_id ); 
     let questionModal = confirm('Вы согласны удалить счет?');
       if (questionModal) {//да
           let dataRemove = new FormData();
@@ -77,16 +74,10 @@ class TransactionsPage {
       
             Account.remove(dataRemove, ( err, response ) => {
               if (response && response.success === true) {
-              console.log( " счет удален", response ); 
               this.clear();
               //this.renderTitle('Название счёта');
               //App.updateWidgets();//
               App.update(); //было до этого App.update();
-             // this.renderTitle('Название счёта');//
-              //this.update();
-              //App.updateWidgets();//App.update()
-
-             // this.registerEvents();//было  в пред вар//не влияет на кнопку
 
            }
             else {
@@ -120,13 +111,11 @@ class TransactionsPage {
         Transaction.remove(dataRemove, ( err, response ) => {
            console.log( " транзакцию удалили", response ); 
            if (response && response.success === true) {
-              //console.log("счет", response.account);
              this.clear();
              App.update();//App.updateWidgets(); ////this.update();//
              //App.updateWidgets();
              this.render(this.lastOptions);
              //this.registerEvents();//?
-  
            }
            else {
              console.log(response.err);
@@ -151,9 +140,6 @@ class TransactionsPage {
            if (response && response.success === true) {
             console.log("счет", response.data.name);
             this.accountGet = response.data;
-            //this.clear();
-            //this.renderTitle(response.data.name);
-            //App.update();//App.updateWidgets();
 
               Transaction.list({account_id: this.lastOptions.account_id}, (err, response) => {
                 if (response && response.success === true) {
@@ -162,17 +148,7 @@ class TransactionsPage {
                   this.renderTitle(this.accountGet.name);
                   this.renderTransactions(response.data);
                   //App.update();
-
                   //this.registerEvents();
-
-                  //this.update();//?!!!!! App.update иначе сабмиты не работают 2 раз
-                  //this.registerEvents();//заново, т.к. перерисовали и не работает клик
-                  
-                  /*было, когда работало
-                 this.clear();
-                  this.renderTransactions(response.data);
-                  this.registerEvents();//заново, т.к. перерисовали и не работает клик
-              */
                 }
                 else{
                   console.log(err);
@@ -219,8 +195,14 @@ class TransactionsPage {
    * */
   formatDate(date){
     const arrData = date.substr(0,10) ;//массив demo  //"T"
+    let arrTime = "";
     //const arrTime = date.substr(11,5) ;
-    const arrTime = `${(Number(date.substr(11,2)) + 3)}` + date.substr(13,3);
+    if ((Number(date.substr(11,2)) + 3) === 24) {
+      arrTime = `00` + date.substr(13,3);
+    }
+    else{
+    arrTime = `${(Number(date.substr(11,2)) + 3)}` + date.substr(13,3);
+   }
     const resultdate = arrData.split('-');
     const month = ['января' , 'февраля' , 'марта' , 'апреля', 'мая' , 'июня' , 'июля', 'августа' , 'сентября' , 'октября' , 'ноября' , 'декабря' ] 
       if (resultdate[1] === 0) {
@@ -321,3 +303,25 @@ class TransactionsPage {
     }
     return `${resultdate[2]} ${month [Number(resultdate[1]-1)]} ${resultdate[0]} ${arrData[1].substr(0, 5)}`;
   */
+  
+
+  // this.renderTitle('Название счёта');//
+              //this.update();
+              //App.updateWidgets();//App.update()
+
+             // this.registerEvents();//было  в пред вар//не влияет на кнопку
+
+
+
+
+             //this.update();//?!!!!! App.update иначе сабмиты не работают 2 раз
+                  //this.registerEvents();//заново, т.к. перерисовали и не работает клик
+                  
+                  /*было, когда работало
+                 this.clear();
+                  this.renderTransactions(response.data);
+                  this.registerEvents();//заново, т.к. перерисовали и не работает клик
+              */
+//this.clear();
+            //this.renderTitle(response.data.name);
+            //App.update();//App.updateWidgets();
