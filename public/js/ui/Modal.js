@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Класс Modal отвечает за
  * управление всплывающими окнами.
  * В первую очередь это открытие или
@@ -13,17 +13,12 @@ class Modal {
    * */
   constructor(element){
     this.element = element;
-    console.log("окно" + this.element);
 
-   /* if (this.element === null) {
-      alert("Невозможно открыть модальное окно");
+   if (this.element === null) {
+      console.log("Невозможно открыть модальное окно");
     }
-    else {
-      this.registerEvents();
-    }
-   */
+   
    this.registerEvents();
-   //this.
   }
 
   /**
@@ -32,7 +27,6 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
-    //.querySelector("div").addEventListener('click', this.Modal.onClose);
      Array.from(this.element.querySelectorAll('[data-dismiss="modal"]')).forEach((item) => {
       item.addEventListener('click', this.onClose.bind(this));
     });
@@ -61,4 +55,3 @@ class Modal {
 
  
 }
- //Modal.registerEvents();
