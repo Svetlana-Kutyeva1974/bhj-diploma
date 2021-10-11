@@ -11,7 +11,7 @@ class User {
    * */
   static setCurrent(user) {
 
-     localStorage.setItem('user', JSON.stringify(user));//localStorige.setItem('user', user)
+     localStorage.setItem('user', JSON.stringify(user));
      console.log( localStorage.user);
   }
 
@@ -31,7 +31,7 @@ class User {
    * */
   static current() {
     let userCurrent = localStorage.getItem("user");
-    return JSON.parse(userCurrent) || undefined;
+    return JSON.parse(userCurrent);// || undefined;
   
   }
 
@@ -50,10 +50,10 @@ class User {
           this.setCurrent(response.user);
         }
         else {
-          callback(err, response);
+         // callback(err, response);
           this.unsetCurrent();
         }
-        //callback(err, response);
+        callback(err, response);
       }
     });
 

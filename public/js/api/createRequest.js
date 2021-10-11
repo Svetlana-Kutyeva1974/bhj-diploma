@@ -14,18 +14,8 @@ xhr.responseType = 'json';
                                             
   try {
     if (method === `GET`){
-      /*let i = "id";
-      if (i in data)
-        {
-          //url += `/${id}`;
-          url.searchParam.set(`id`, `${data['key']}`);
-        }*/
       for (let key in data) {
-       // if (key != 'id') {
-          url.searchParams.append(`${key}`, data[key]);
-        //}
-
-         //console.log(data.key, `${data.key}`);
+        url.searchParams.append(`${key}`, data[key]);
         console.log(url);
       }
 
@@ -34,15 +24,7 @@ xhr.responseType = 'json';
     }
     else {
        xhr.open( method, url );
-       xhr.send( data );//или вместо этой строки так:
-       
-       /*Формально использовать формдата так:
-        const formData = new FormData();
-        for (let key in data) {
-          formData.append(`${key}`, data[key]); 
-        }
-        xhr.send(formData );
-       */
+       xhr.send( data );
     }
 
   }
@@ -54,19 +36,20 @@ xhr.responseType = 'json';
   xhr.onload = function() {
     let body = xhr.response;
     if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
-      alert(`Ошибка ${xhr.status}: ${xhr.statusText}`); // Например, 404: Not Found
+      console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`); // Например, 404: Not Found
       //callback( e );
       callback(xhr.status , xhr.response);
     } else { // если всё прошло гладко, выводим результат
-     // alert(`Готово, получили ${xhr.response.length} байт`); // response -- это ответ сервера
-      //console.log('Готово, получили ' + xhr.status + body);
+     // alert(`Готово, получили ${xhr.response.length} байт`); 
       callback(xhr.status , xhr.response);
   }
 };
 
 xhr.onerror = function() {
-  alert("Запрос не удался");
+  throw new Error('Запрос не удался');//console.log("Запрос не удался");
   callback( err );
 };
 
 }
+
+       
